@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 __author__ = 'mdshepard', 'mikaiyl', 'tjhindman',
 
-import logging
+
 import os
 import time
 import re
+import logging
+import logging.config
 from dotenv import load_dotenv
 from slackclient import SlackClient
 
@@ -19,6 +21,11 @@ Hal9000_id = None
 RTM_READ_DELAY = 1  # 1 second delay between reading from RTM
 EXAMPLE_COMMAND = "do"
 MENTION_REGEX = MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
+
+# a variable that sets up the logger to use slack.py in the
+# python module namspace.
+logging.config.fileConfig('logger_config.ini')
+logger = logging.getLogger('mainLogger')
 
 
 def parse_bot_commands(slack_events):
@@ -76,8 +83,8 @@ def handle_command(command, channel):
 if __name__ == "__main__":
     try:
         if slack_client.rtm_connect(with_team_state=False):
-            print("I am completely operational, and all my "
-                  "circuits are functioning perfectly.")
+            logger.info("I am completely operational, and all my "
+                        "circuits are functioning perfectly.")
             # Read bot's user ID by calling the Web API method 'auth test'
             Hal9000_id = slack_client.api_call('auth.test')['user_id']
             while True:
@@ -86,7 +93,7 @@ if __name__ == "__main__":
                     handle_command(command, channel)
                 time.sleep(RTM_READ_DELAY)
         else:
-            print(
+            logger.warning(
                 "I've just picked up a fault in the AE35 unit. "
                 "\nConnection failed. Exception traceback printed above")
     except Exception as e:

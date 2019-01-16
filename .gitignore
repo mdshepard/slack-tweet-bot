@@ -1,3 +1,5 @@
 .vscode/*
 v_env/*
 .env
+slack-tweet/*
+logfile.log

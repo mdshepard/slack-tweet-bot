@@ -5,6 +5,7 @@ __author__ = 'mdshepard', 'mikaiyl', 'tjhindman',
 import dotenv
 import queue
 import tweetbot
+import slack
 
 
 def get_dotenv():
@@ -22,6 +23,10 @@ def main():
     tweets = queue.Queue()
 
     twitbot = tweetbot.TweetBot(get_dotenv(), subs, tweets)
+    slackbot = slack.SlackBot(tweets, subs)
+
+    twitbot.start()
+    slackbot.start()
 
 
 if __name__ == "__main__":

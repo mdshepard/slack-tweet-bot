@@ -3,6 +3,8 @@ __author__ = 'mdshepard', 'mikaiyl', 'tjhindman',
 
 # This needs to be from the python-dotenv package not dotenv
 import dotenv
+import queue
+import tweetbot
 
 
 def get_dotenv():
@@ -12,5 +14,15 @@ def get_dotenv():
     return dotenv.dotenv_values()
 
 
+def main():
+    '''
+    Main function. Everything happens here.
+    '''
+    subs = queue.Queue()
+    tweets = queue.Queue()
+
+    twitbot = tweetbot.TweetBot(get_dotenv(), subs, tweets)
+
+
 if __name__ == "__main__":
-    pass
+    main()

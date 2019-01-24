@@ -14,7 +14,7 @@ import argparse
 import dotenv
 import logging
 import logging.config
-import ipdb # noqa
+# import ipdb # noqa
 import queue
 import signal
 import slackbot

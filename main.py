@@ -62,7 +62,7 @@ def main(args):
     tweets = queue.Queue()
 
     sbot = slackbot.SlackBot(tweets, subs)
-    sbot.connect_to_stream()
+    # sbot.connect_to_stream()
     sbot.monitor_stream()
     sbot.start()
 

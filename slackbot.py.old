@@ -36,7 +36,7 @@ class SlackBot(threading.Thread):
         # instantiating slack client
         try:
             logger.info('Connecting to Slack')
-            self.slack_client = SlackClient(os.environ.get('slack-user-access-token')) # noqa
+            self.client = SlackClient(os.environ.get('slack-user-access-token')) # noqa
         except Exception as e:
             logger.error(e)
         super().__init__()
@@ -85,7 +85,7 @@ class SlackBot(threading.Thread):
                        "ever hope to do.\n You'll need to write more code before I can do this." # noqa
 
         # Sends the response back to the channel.
-        self.slack_client.api_call(
+        self.client.api_call(
             "chat.postMessage",
             channel=channel,
             text=response or default_response
@@ -93,13 +93,13 @@ class SlackBot(threading.Thread):
 
         def run(self):
             try:
-                if self.slack_client.rtm_connect(with_team_state=False):
+                if self.client.rtm_connect(with_team_state=False):
                     logger.info("I am completely operational, and all my "
                                 "circuits are functioning perfectly.")
                     # Read bot's user ID by calling the Web API method 'auth test'  # noqa
-                    Hal9000_id = self.slack_client.api_call('auth.test')['user_id'] # noqa
+                    Hal9000_id = self.client.api_call('auth.test')['user_id'] # noqa
                     while True:
-                        command, channel = parse_bot_commands(self.slack_client.rtm_read()) # noqa
+                        command, channel = parse_bot_commands(self.client.rtm_read()) # noqa
                         if command:
                             self.handle_command(command, channel)
                         time.sleep(RTM_READ_DELAY)

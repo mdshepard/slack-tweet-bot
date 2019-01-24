@@ -33,13 +33,6 @@ class SlackBot(threading.Thread):
     def __init__(self, from_slack, to_slack):
         self.from_slack = from_slack
         self.to_slack = to_slack
-        # ipdb.set_trace()
-        # instantiating slack client
-        try:
-            logger.info('Connecting to Slack')
-            self.client = SlackClient(os.environ.get('slack-user-access-token')) # noqa
-        except Exception as e:
-            logger.error(e)
         super().__init__()
 
     def connect_to_stream(self):
